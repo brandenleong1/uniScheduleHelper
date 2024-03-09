@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Schedule Helper</title>
+
+		<link href="style.css" rel="stylesheet" type="text/css" />
+		<style id="loading-css">
+			body *:not(#loading) {
+				opacity: 0;
+			}
+		</style>
+		<link href="https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/themes/vertical_layout.css" rel="stylesheet" type="text/css" />
+		<link href="https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/themes/colors.css" rel="stylesheet" type="text/css" />
+	</head>
+	
+	<body>
+		<div class="content-container-vertical">
+			<div class="content-header">University Schedule Helper</div>
+			<div class="content-break"></div>
+			<div class="content-container-horizontal" style="column-gap: 60px;">
+				<div class="content-container-vertical" id="l-col" style="flex: 1;">
+					<div class="content-container-vertical" id="l-col-1">
+						<div class="content-header">Class List</div>
+						<div class="content-container-vertical" id="class-list">No classes added</div>
+						<div class="content-break"></div>
+						<div class="content-container-horizontal">
+							<div class="button-positive-2" onclick="clearAllClasses();">Clear All</div>
+							<div class="button-positive-2" onclick="addClass();">Add Class</div>
+						</div>
+						<div class="content-container-horizontal">
+							<div class="button-positive-2" onclick="importList();">Import List</div>
+							<div class="button-positive-2" onclick="exportList();">Export List</div>
+						</div>
+						<div class="content-break"></div>
+						<div class="content-container-horizontal">
+							<div class="button-positive-2" onclick="generateSchedules();">Generate Schedules</div>
+						</div>
+						<div class="content-break"></div>
+					</div>
+					<div class="content-container-vertical" id="l-col-2" style="display: none;">
+						<div class="content-header">Schedules</div>
+						<div class="content-container-vertical" id="schedule-list"></div>
+					</div>
+				</div>
+				<div class="content-container-vertical" id="r-col" style="flex: 3;">
+					<div class="content-container-vertical" id="r-col-1">
+						<div class="content-header" id="right-col-header"></div>
+						<div class="content-text" id="right-col-instr"></div>
+						<div class="content-container-vertical" id="right-col-list"></div>
+						<div class="content-container-horizontal" id="right-col-bottom" style="align-items: center; justify-content: space-between;"></div>
+						<div class="content-break"></div>
+					</div>
+					<div class="content-container-vertical" id="r-col-2" style="display: none;">
+						<div class="content-container-horizontal" style="justify-content: space-between;">
+							<div class="content-header" id="right-col2-header">&nbsp;</div>
+							<div class="content-container-horizontal" style="height: fit-content; align-self: center;">
+								<div class="button-negative" onclick="incrementSelect(-1);"><</div>
+								<div class="button-negative" onclick="incrementSelect(1);">></div>
+							</div>
+						</div>
+						<div class="content-container-vertical" id="right-col2-body" style="position: relative;"></div>
+						<div class="content-break"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="bottom-bar">
+			<img id="help" src="https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/icons/help.svg" />
+			<img id="settings" src="https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/icons/settings.svg" />
+		</div>
+
+		<div class="popup" id="popup-help">
+			<div class="content-header">Help</div>
+			<div class="content-container-vertical">
+				<div class="content-text">Text styled like <span style="color: var(--color_btn);">this</span> are buttons.</div>
+				<div class="content-text">This website helps you look at different possible class schedules to help you pick the best one. Enter in some classes, then put in the possible time slots for each, and then run it. You can hide certain schedules if you are sure you don't want them, to help you narrow your search down. Note: make sure to put different sections of a class as independent classes, as the program will try to pick one timeslot for each class.</div>
+			</div>
+		</div>
+		<div class="popup" id="popup-settings">
+			<div class="content-header">Settings</div>
+			<div class="content-text" style="overflow-y: hidden;">
+				<span class="button-positive" id="theme-btn">Change Theme:</span>
+				<span style="position: relative; display: inline-flex; width: 85px;"> &nbsp;
+					<span id="theme-label-1" style="position: absolute; max-width: 80px; overflow-x: hidden; text-overflow: ellipsis;"></span>
+					<span id="theme-label-2" style="max-width: 80px; overflow-x: hidden; text-overflow: ellipsis;"></span>
+				</span>
+			</div>
+			<div class="content-text" style="overflow-y: hidden;">
+				<span class="button-positive" id="anim-btn">Animate Schedules:</span>
+				<span style="position: relative; display: inline-flex; width: 85px;"> &nbsp;
+					<span id="anim-label-1" style="position: absolute; max-width: 80px; overflow-x: hidden; text-overflow: ellipsis;"></span>
+					<span id="anim-label-2" style="max-width: 80px; overflow-x: hidden; text-overflow: ellipsis;"></span>
+				</span>
+			</div>
+		</div>
+		
+		<div id="loading"></div>
+		
+		<script src="https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/utils/math.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/utils/rate_funcs.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/utils/utils.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/utils/colors.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/utils/animate.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/utils/cookies.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/utils/math_jax.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/utils/math_jax_config.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/utils/base64.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/utils/themes.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/brandenleong1/utils@latest/themes/popup.js"></script>
+		
+		<script src="script.js"></script>
+		<script src="init.js"></script>
+		<script src="classio.js"></script>
+		<script src="schedule.js"></script>
+		<script src="importexport.js"></script>
+	</body>
+</html>

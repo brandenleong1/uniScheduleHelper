@@ -1,0 +1,114 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
+#l-col, #r-col {
+	position: relative;
+	height: max-content;
+}
+
+#l-col-1, #r-col-1 {
+	width: 100%;
+}
+
+#l-col-2, #r-col-2 {
+	position: absolute;
+	width: 100%;
+}
+
+#schedule-list {
+	overflow-y: auto;
+	padding: 5px 10px 5px 5px;
+	scroll-behavior: smooth;
+}
+
+.class-time {
+    padding: 20px;
+    border-radius: 10px;
+    background-color: var(--color_bg2);
+}
+
+.day-btn.active {
+	background-color: var(--color_blue);
+	color: var(--color_bg);
+}
+
+.day-btn.active:hover {
+	color: var(--color_bg);
+}
+
+.schedule-row {
+	padding: 16px;
+}
+
+.schedule-row.selected {
+	border-radius: 10px;
+	outline: 1px solid var(--color_red);
+}
+
+#big-schedule {
+	display: grid;
+	grid-template-columns: repeat(calc(7 + 1), 1fr);
+	grid-template-rows: repeat(calc((24 + 1) * 60), 1fr);
+	aspect-ratio: calc((7 + 1) * 5) / calc((24 + 1) * 2);
+	background-color: var(--color_bg2);
+	grid-column-gap: 1px;
+	width: 100%;
+}
+
+#big-schedule * {
+	z-index: 10;
+}
+
+#big-schedule .header {
+	place-self: center;
+	background-color: var(--color_bg2);
+	padding: 5px;
+}
+
+#schedule-grid, #schedule-grid td {
+	border: 1px solid var(--color_txt2);
+}
+
+.mini-schedule {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	grid-template-rows: repeat(calc(24 * 60), 1fr);
+	aspect-ratio: calc(7 * 4) / calc(24 * 1);
+	width: 100%;
+	background-color: var(--color_bg2);
+	border-radius: 2%;
+	grid-column-gap: 1px;
+	cursor: pointer;
+	transition: background-color 0.5s, filter 0.5s, transform 0.25s;
+}
+
+.mini-schedule:hover {
+	transform: scale(1.1);
+}
+
+.time {
+	border-radius: 5%;
+	font-size: 80%;
+}
+
+#big-schedule .time {
+	padding: 2px;
+}
+
+.show-icon {
+	width: 20px;
+	height: 20px;
+	background-color: var(--color_txt);
+	-webkit-mask: url(show.svg) no-repeat center / contain;
+	mask: url(show.svg) no-repeat center / contain;
+}
+
+.hide-icon {
+	width: 20px;
+	height: 20px;
+	background-color: var(--color_txt);
+	-webkit-mask: url(hide.svg) no-repeat center / contain;
+	mask: url(hide.svg) no-repeat center / contain;
+}
