@@ -96,6 +96,18 @@
 				</span>
 			</div>
 		</div>
+		<div class="popup" id="popup-export">
+			<div class="content-header">Export List</div>
+			<div class="content-text">Copy and save this string to import</div>
+			<textarea id="export-textarea" style="resize: none; height: 5lh;" readonly></textarea>
+			<div class="button-positive-2" onclick="copyExportString();">Copy to Clipboard</div>
+		</div>
+		<div class="popup" id="popup-import">
+			<div class="content-header">Import List</div>
+			<div class="content-text">Enter in the import string</div>
+			<textarea id="import-textarea" style="resize: none; height: 5lh;"></textarea>
+			<div class="button-positive-2" onclick="readImportString();">Read Import</div>
+		</div>
 		
 		<div id="loading"></div>
 		

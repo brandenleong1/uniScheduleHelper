@@ -210,6 +210,7 @@ function saveCookie() {
 
 function loadCookie() {
 	let arr = JSON.parse(Cookies.getCookie('classList'));
+	if (arr == null) return;
 
 	for (let row of arr) {
 		let l = document.querySelector('#class-list');
