@@ -1,11 +1,11 @@
 let editing = null;
 
-function clearAllClasses() {
+function clearAllClasses(conf = true) {
 	let l = document.querySelector('#class-list');
 
 	let a = l.querySelectorAll('.class-row');
 	if (!a.length) return;
-	if (confirm('Clear all classes?')) {
+	if (!conf || confirm('Clear all classes?')) {
 		for (let i = a.length - 1; i >= 0; i--) {
 			a[i].querySelector('.button-positive-2').click();
 		}
@@ -211,6 +211,8 @@ function saveCookie() {
 function loadCookie() {
 	let arr = JSON.parse(Cookies.getCookie('classList'));
 	if (arr == null) return;
+
+	clearAllClasses(false);
 
 	for (let row of arr) {
 		let l = document.querySelector('#class-list');
