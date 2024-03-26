@@ -1,4 +1,5 @@
 function importList() {
+	document.querySelector('#import-textarea').value = '';
 	Popup.popup(document.querySelector('#popup-import'));
 }
 
