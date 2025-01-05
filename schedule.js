@@ -6,7 +6,7 @@ async function generateSchedules() {
 
 		let indices = Array(a.length).fill(0);
 		let bases = Array.from(a).map(r => r.times.length);
-		
+
 		let p = 1;
 		for (let base of bases) p *= base;
 
@@ -17,7 +17,7 @@ async function generateSchedules() {
 				s[j] = a[j].times[indices[j]];
 			}
 			if (!hasScheduleConflict(s)) good.push(s);
-			
+
 			incrementIndices(indices, bases);
 		}
 
@@ -75,23 +75,23 @@ async function generateSchedules() {
 					d.style.gridRowEnd = 60 * (i + 1) + 31;
 					bs.append(d);
 				}
-				
+
 				let l = document.querySelector('#schedule-list');
-	
+
 				for (let i = 0; i < good.length; i++) {
 					let row = document.createElement('div');
 					row.classList.add('content-container-horizontal', 'schedule-row');
 					row.listID = i;
 					row.times = good[i];
-					
+
 					let ms = document.createElement('div');
 					ms.classList.add('mini-schedule');
-	
+
 					for (let j = 0; j < good[i].length; j++) {
 						let s = good[i][j][0], e = good[i][j][1];
 						let sh = parseInt(s.substr(0, 2), 10), sm = parseInt(s.substr(2, 4), 10);
 						let eh = parseInt(e.substr(0, 2), 10), em = parseInt(e.substr(2, 4), 10);
-						
+
 						for (let k = 0; k < 7; k++) {
 							if (good[i][j][2][k]) {
 								let time = document.createElement('div');
@@ -105,7 +105,7 @@ async function generateSchedules() {
 							}
 						}
 					}
-					
+
 					let btn = document.createElement('div');
 					btn.classList.add('button-positive-2');
 					btn.style.display = 'flex';
@@ -122,7 +122,7 @@ async function generateSchedules() {
 						img.classList.toggle('show-icon');
 						img.classList.toggle('hide-icon');
 						updateSelectedName();
-	
+
 						if (img.classList.contains('hide-icon')) {
 							ms.style.filter = 'blur(5px) grayscale(0.8)';
 							if (row.classList.contains('selected')) {
@@ -134,17 +134,17 @@ async function generateSchedules() {
 						}
 					};
 					btn.append(img);
-	
+
 					row.append(ms, btn);
 					l.append(row);
 					updateSelectedName();
 				}
-				
+
 			}();
-			
+
 			await Animate.remove(l2);
 			await Animate.remove(r2);
-			
+
 			l2.style.display = null;
 			r2.style.display = null;
 
@@ -153,7 +153,7 @@ async function generateSchedules() {
 			window.addEventListener('resize', function() {
 				l.style.height = (document.querySelector('#big-schedule').getBoundingClientRect().height- 10) + 'px';
 			});
-			
+
 			await Animate.animateGroup([
 				[l1, Animate.fadeOut, {shiftTo: DOWN}],
 				[r1, Animate.fadeOut, {shiftTo: DOWN}],
@@ -163,7 +163,7 @@ async function generateSchedules() {
 
 			l2.style.pointerEvents = null;
 			r2.style.pointerEvents = null;
-			
+
 			l1.style.display = 'none';
 			r1.style.display = 'none';
 			l1.style.position = 'absolute';
@@ -187,7 +187,7 @@ async function generateSchedules() {
 function incrementSelect(n) {
 	let n2 = document.querySelectorAll('.show-icon').length;
 	if (!n2) return;
-	
+
 	let sel = document.querySelector('.schedule-row.selected');
 	let a = Array.from(document.querySelectorAll('.schedule-row'));
 
@@ -230,17 +230,17 @@ async function drawSelectedBig() {
 	clearBig();
 	let a = document.querySelectorAll('#class-list .class-row');
 	let sel = document.querySelector('.schedule-row.selected');
-	
+
 	if (sel) {
 		let b = document.querySelector('#big-schedule');
 
 		let animArr = [];
-		
+
 		for (let i = 0; i < sel.times.length; i++) {
 			let s = sel.times[i][0], e = sel.times[i][1];
 			let sh = parseInt(s.substr(0, 2), 10), sm = parseInt(s.substr(2, 4), 10);
 			let eh = parseInt(e.substr(0, 2), 10), em = parseInt(e.substr(2, 4), 10);
-			
+
 			for (let j = 0; j < 7; j++) {
 				if (sel.times[i][2][j]) {
 					let time = document.createElement('div');
@@ -273,7 +273,7 @@ async function drawSelectedBig() {
 async function toggleAnimSchedules() {
 	animSchedules = !animSchedules;
 	Cookies.setCookie('animSchedules', animSchedules, 5 * 365 * 24 * 60 * 60 * 1000);
-	
+
 	let btn = document.querySelector('#anim-btn');
 	btn.onclick = null;
 
@@ -296,7 +296,7 @@ function clearBig() {
 
 function checkValidTimes() {
 	let a = document.querySelectorAll('#class-list .class-row');
-	
+
 	for (let i = 0; i < a.length; i++) {
 		let r = a[i];
 
